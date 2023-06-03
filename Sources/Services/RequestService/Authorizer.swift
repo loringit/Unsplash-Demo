@@ -53,7 +53,7 @@ class AppAuthAuthorizer: Authorizer {
                 
                 return try NSKeyedUnarchiver.unarchivedObject(ofClass: OIDAuthState.self, from: data)
             } catch {
-                print(error)
+                print("\(#fileID) \(#line): \(error)")
                 return nil
             }
         }
@@ -68,7 +68,7 @@ class AppAuthAuthorizer: Authorizer {
                 let string = data.base64EncodedString()
                 try keychain.set(string, key: authStateKey)
             } catch {
-                print(error)
+                print("\(#fileID) \(#line): \(error)")
             }
             
             tokenSubject.send(newValue.lastTokenResponse?.accessToken)
@@ -85,13 +85,18 @@ class AppAuthAuthorizer: Authorizer {
             tokenEndpoint: tokenEndpoint
         )
         self.authFlowHolder = authFlowHolder
+        logout()
         tokenSubject.send(token)
+        
+        #if DEBUG
+        print(authState?.lastTokenResponse?.accessToken)
+        #endif
     }
     
     // MARK: - Authorizer
     
     var token: String? {
-        return authState?.lastTokenResponse?.accessToken
+        authState?.lastTokenResponse?.accessToken
     }
     
     var idToken: String? {
@@ -109,9 +114,14 @@ class AppAuthAuthorizer: Authorizer {
             configuration: self.configuration,
             clientId: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
-            scopes: ["public", "read_user", "read_photos", "write_likes"],
-            redirectURL: URL(string: "unsplash-demo:/")!,
-            responseType: OIDResponseTypeCode,
+            scope: "public read_user write_likes",
+            redirectURL: URL(string: "unsplash-demo:/"),
+            responseType: "code",
+            state: nil,
+            nonce: nil,
+            codeVerifier: nil,
+            codeChallenge: nil,
+            codeChallengeMethod: nil,
             additionalParameters: nil
         )
         
@@ -124,6 +134,11 @@ class AppAuthAuthorizer: Authorizer {
                     
                     if let authState = authState {
                         self.authState = authState
+                        
+                        #if DEBUG
+                        print(authState.lastTokenResponse?.accessToken)
+                        #endif
+                        
                         loginSubject.send(())
                     } else {
                         print("Authorization error: \(error?.localizedDescription ?? "Unknown error")")

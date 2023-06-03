@@ -24,6 +24,8 @@ struct UserDTO: Decodable {
     var totalCollections: Int
     var totalLikes: Int
     var totalPhotos: Int
+    var followersCount: Int?
+    var followingCount: Int?
     
     var links: Links
     var profileImage: ProfileImageURLs

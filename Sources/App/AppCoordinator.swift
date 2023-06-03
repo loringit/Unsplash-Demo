@@ -5,18 +5,12 @@
 //  Created by Булат Якупов on 02.06.2023.
 //
 
+import Combine
 import UIKit
-
-enum AppCoordinatorOut {
-    
-    
-    
-}
 
 protocol IAppCoordinator: AnyObject {
     
     var window: UIWindow { get set }
-    var out: ((AppCoordinatorOut) -> ())? { get set }
     func start()
     
 }
@@ -26,12 +20,12 @@ class AppCoordinator: IAppCoordinator {
     // MARK: - Public Properties
     
     var window: UIWindow
-    var out: ((AppCoordinatorOut) -> ())?
     
     // MARK: - Private Properties
     
     private var tabCoordinator: ITabCoordinator
     private let dependencyContainer: IDependencyContainer
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Lifecycle
     
@@ -51,13 +45,47 @@ class AppCoordinator: IAppCoordinator {
     
     // MARK: - Public Methods
     
-    func start() {
+    func start() {        
+        dependencyContainer
+            .requestService
+            .authorizationPublisher
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .failure(let error):
+                    print("\(#fileID) \(#line): \(error)")
+                case .finished:
+                    print("\(#fileID) \(#line): Finished")
+                }
+            }, receiveValue: { [weak self] isAuthorized in
+                if isAuthorized {
+                    self?.showMainFlow()
+                } else {
+                    self?.showAuth()
+                }
+            })
+            .store(in: &subscriptions)
+    }
+    
+    // MARK: - Private methods
+    
+    private func showAuth() {
+        let vc = AuthorizationViewController(requestService: dependencyContainer.requestService)
+        vc.out = { [weak self] cmd in
+            switch cmd {
+            case .authorized:
+                self?.showMainFlow()
+            }
+        }
+        
+        window.rootViewController = vc
+        window.makeKeyAndVisible()
+    }
+    
+    private func showMainFlow() {
         window.rootViewController = tabCoordinator.tabBarController
         window.makeKeyAndVisible()
         
         tabCoordinator.start()
     }
-    
-    // MARK: - Private methods
     
 }

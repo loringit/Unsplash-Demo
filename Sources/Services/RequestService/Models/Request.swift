@@ -80,7 +80,7 @@ struct Request {
                 let encodedData = try JSONEncoder().encode(encodableBody)
                 data = encodedData
             } catch {
-                print(error)
+                print("\(#fileID) \(#line): \(error)")
             }
         } else if let bodyData = bodyData {
             data = bodyData
