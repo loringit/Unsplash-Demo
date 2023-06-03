@@ -21,6 +21,10 @@ struct UserDTO: Decodable {
     var instagramUsername: String?
     var twitterUsername: String?
     
+    var totalCollections: Int
+    var totalLikes: Int
+    var totalPhotos: Int
+    
     var links: Links
     var profileImage: ProfileImageURLs
     

@@ -105,15 +105,14 @@ class RequestService: NSObject, IRequestService {
         
         
         return URLSession.shared.dataTaskPublisher(for: urlRequest)
-            .map { [weak self] (data, response) in
-                guard let self else { return }
+            .tryMap({ [weak self] element in
+                guard let self else { throw RequestError.unknown }
+                
+                let data = element.data
+                let response = element.response
                 
                 guard let response = response as? HTTPURLResponse else {
-                    return RequestError.notHttpResponse
-                }
-                
-                guard let data = data else {
-                    return RequestError.noData
+                    throw RequestError.notHttpResponse
                 }
                 
                 if response.statusCode / 200 == 1 {
@@ -135,31 +134,20 @@ class RequestService: NSObject, IRequestService {
                         }
                     } catch {
                         self.decoder.dateDecodingStrategy = .formatted(self.dateFormatter1)
-                        return error
+                        throw error
                     }
                 } else if response.statusCode == 401 {
                     self.authorizer.logout()
-                    return RequestError.noToken
+                    throw RequestError.noToken
                 } else {
                     do {
                         let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                        return RequestError.serverError(result)
+                        throw RequestError.serverError(result)
                     } catch {
-                        return error
+                        throw error
                     }
                 }
-            }
-            .mapError { [weak self] error in
-                guard let self else { return }
-                
-                if let error = error {
-                    if (error as NSError).code == NSURLErrorTimedOut {
-                        return RequestError.timeout
-                    } else {
-                        return RequestError.badRequest(error)
-                    }
-                }
-            }
+            })
             .eraseToAnyPublisher()
     }
     

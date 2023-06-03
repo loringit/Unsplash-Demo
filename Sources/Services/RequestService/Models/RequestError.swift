@@ -9,6 +9,7 @@ import Foundation
 
 enum RequestError: Error {
     
+    case unknown
     case timeout
     case badRequest(Error)
     case notHttpResponse

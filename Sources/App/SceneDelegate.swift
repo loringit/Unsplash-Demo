@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var appCoorindator: IWindowCoordinator?
+    var appCoorindator: IAppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -18,8 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
+        let requestService = RequestService(authorizer: AppAuthAuthorizer(authFlowHolder: UIApplication.shared.delegate as! AppDelegate))
+        
         let dependencyContainer = DependencyContainer(
-            unsplashService: UnsplashService()
+            requestService: requestService,
+            unsplashService: UnsplashService(requestService: requestService)
         )
 
         appCoorindator = AppCoordinator(
