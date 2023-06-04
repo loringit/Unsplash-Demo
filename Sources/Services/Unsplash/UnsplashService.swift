@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import Nuke
 
 protocol IUnsplashService: AnyObject {
     
@@ -28,6 +29,7 @@ class UnsplashService: IUnsplashService {
     
     init(requestService: IRequestService) {
         self.requestService = requestService
+        ImagePipeline.shared = ImagePipeline(configuration: .withDataCache)
     }
     
     // MARK: - Public methods

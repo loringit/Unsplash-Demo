@@ -40,6 +40,13 @@ extension UIColor {
         
     }
     
+    struct ProgressView {
+        
+        static let progressTint = UIColor(named: "TextPrimary")!
+        static let background = UIColor(named: "TextSecondary")!
+                
+    }
+    
     var dark: UIColor  { resolvedColor(with: .init(userInterfaceStyle: .dark))  }
     var light: UIColor { resolvedColor(with: .init(userInterfaceStyle: .light)) }
     

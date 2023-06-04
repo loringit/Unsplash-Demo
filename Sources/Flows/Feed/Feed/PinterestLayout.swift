@@ -84,10 +84,9 @@ class PinterestLayout: UICollectionViewLayout {
                 width: columnWidth,
                 height: height
             )
-            let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
             
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            attributes.frame = insetFrame
+            attributes.frame = frame
             cache.append(attributes)
             
             contentHeight = max(contentHeight, frame.maxY)

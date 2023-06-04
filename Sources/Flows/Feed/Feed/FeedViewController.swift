@@ -37,7 +37,7 @@ class FeedViewController: UIViewController {
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor.Background.primary
-        collectionView.contentInset = .init(top: 18, left: 18, bottom: 0, right: 18)
+        collectionView.contentInset = .init(top: 0, left: 18, bottom: 0, right: 18)
         
         view.addSubview(collectionView)
 
@@ -46,8 +46,8 @@ class FeedViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private lazy var datasource: UICollectionViewDiffableDataSource<Int, FeedItem> = {
-        let itemCellRegistration = UICollectionView.CellRegistration<FeedCell, FeedItem> { (cell, indexPath, cellItem) in
+    private lazy var datasource: UICollectionViewDiffableDataSource<Int, PhotoItem> = {
+        let itemCellRegistration = UICollectionView.CellRegistration<FeedCell, PhotoItem> { (cell, indexPath, cellItem) in
             cell.setup(with: cellItem)
         }
         
@@ -58,7 +58,7 @@ class FeedViewController: UIViewController {
     private let viewModel: IFeedViewModel
     private var subscriptions = Set<AnyCancellable>()
     private var bottomConstraint: NSLayoutConstraint?
-    private var items = [FeedItem]()
+    private var items = [PhotoItem]()
     
     // MARK: - Lifecycle
     
@@ -75,11 +75,11 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.Background.primary
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: nil)
         
         setupLayout()
         setupKeyboardListeners()
         setupBindings()
-//        loadNext()
     }
         
     private func setupLayout() {
@@ -163,7 +163,7 @@ class FeedViewController: UIViewController {
                     
                     self.items = items
                     
-                    var snapshot = NSDiffableDataSourceSnapshot<Int, FeedItem>()
+                    var snapshot = NSDiffableDataSourceSnapshot<Int, PhotoItem>()
                     snapshot.appendSections([0])
                     snapshot.appendItems(items, toSection: 0)
                     self.datasource.apply(snapshot, animatingDifferences: true)
@@ -207,8 +207,8 @@ extension FeedViewController: UISearchBarDelegate {
 
 extension FeedViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.tapSubject.send(items[indexPath.row])
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
