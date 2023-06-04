@@ -85,11 +85,12 @@ class AppAuthAuthorizer: Authorizer {
             tokenEndpoint: tokenEndpoint
         )
         self.authFlowHolder = authFlowHolder
-        logout()
         tokenSubject.send(token)
         
         #if DEBUG
-        print(authState?.lastTokenResponse?.accessToken)
+        if let token = authState?.lastTokenResponse?.accessToken {
+            print(token)
+        }
         #endif
     }
     
@@ -136,7 +137,9 @@ class AppAuthAuthorizer: Authorizer {
                         self.authState = authState
                         
                         #if DEBUG
-                        print(authState.lastTokenResponse?.accessToken)
+                        if let token = authState.lastTokenResponse?.accessToken {
+                            print(token)
+                        }
                         #endif
                         
                         loginSubject.send(())

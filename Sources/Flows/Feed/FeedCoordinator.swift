@@ -39,12 +39,22 @@ class FeedCoordinator: IFeedCoordinator {
     init(navigationController: UINavigationController, dependancyContainer: IDependencyContainer) {
         self.navigationController = navigationController
         self.dependancyContainer = dependancyContainer
+        
+        navigationController.setNavigationBarHidden(true, animated: false)
     }
     
     // MARK: - Public methods
     
     func start() {
-        
+        showFeed()
+    }
+    
+    // MARK: - Private methods
+    
+    private func showFeed() {
+        let viewModel = FeedViewModel(unsplashService: dependancyContainer.unsplashService)
+        let viewController = FeedViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: false)
     }
     
 }

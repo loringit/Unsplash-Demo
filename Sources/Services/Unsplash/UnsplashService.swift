@@ -34,7 +34,6 @@ class UnsplashService: IUnsplashService {
     
     func getPhotos(page: Int, count: Int) -> AnyPublisher<[PhotoDTO], Error> {
         let url = requestService.serverURL
-            .appendingPathComponent("search")
             .appendingPathComponent("photos")
         
         let request = Request(
@@ -50,13 +49,14 @@ class UnsplashService: IUnsplashService {
     
     func searchPhotos(query: String, page: Int, count: Int) -> AnyPublisher<PaginatedResponse<PhotoDTO>, Error> {
         let url = requestService.serverURL
+            .appendingPathComponent("search")
             .appendingPathComponent("photos")
         
         let request = Request(
             url: url,
             method: .get,
             headers: requestService.defaultHeader,
-            parameters: ["page": page, "per_page": count],
+            parameters: ["query": query, "page": page, "per_page": count],
             encoding: .none
         )
         
