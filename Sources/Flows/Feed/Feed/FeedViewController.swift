@@ -16,6 +16,7 @@ class FeedViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.delegate = self
+        searchBar.placeholder = "Search for photos"
         searchBar.backgroundImage = UIImage()
         searchBar.backgroundColor = UIColor.Background.primary
         searchBar.tintColor = UIColor.Text.primary

@@ -46,7 +46,7 @@ class ProfileHeaderCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 18
-        stackView.distribution = .equalCentering
+        stackView.distribution = .fill
         stackView.alignment = .center
         return stackView
     }()

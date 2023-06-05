@@ -26,7 +26,7 @@ class ProfileCountersCell: UITableViewCell {
     var model: ProfileCountersModel? {
         didSet {
             guard let model else { return }
-            
+            countersStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             countersStackView.addArrangedSubview(createCounter(title: "Likes", value: model.likesCount))
             countersStackView.addArrangedSubview(createCounter(title: "Following", value: model.followingCount))
             countersStackView.addArrangedSubview(createCounter(title: "Followers", value: model.followersCount))

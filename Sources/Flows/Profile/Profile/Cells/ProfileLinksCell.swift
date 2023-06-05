@@ -28,7 +28,7 @@ class ProfileLinksCell: UITableViewCell {
     var model: ProfileLinksModel? {
         didSet {
             guard let model else { return }
-            
+            stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             createLinks(from: model).forEach { stackView.addArrangedSubview($0) }
         }
     }

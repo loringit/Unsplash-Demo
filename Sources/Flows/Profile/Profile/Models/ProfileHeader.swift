@@ -16,7 +16,7 @@ struct ProfileHeaderModel {
     init(dto: UserDTO) {
         self.name = "\(dto.firstName ?? "") \(dto.lastName ?? "")"
         self.bio = dto.bio
-        self.avatar = dto.profileImage.medium
+        self.avatar = dto.profileImage.large
     }
     
 }

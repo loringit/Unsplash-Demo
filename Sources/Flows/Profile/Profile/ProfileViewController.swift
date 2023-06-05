@@ -52,6 +52,10 @@ class ProfileViewController: UIViewController {
         
         setupLayout()
         setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         viewModel.reloadSubject.send()
     }
