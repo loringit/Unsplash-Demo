@@ -54,6 +54,8 @@
 		67E71FE82A2D50030093ACF4 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FE72A2D50030093ACF4 /* DownloadViewController.swift */; };
 		67E71FEA2A2D50380093ACF4 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FE92A2D50380093ACF4 /* ProgressView.swift */; };
 		67E71FEC2A2D52110093ACF4 /* DownloadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FEB2A2D52110093ACF4 /* DownloadViewModel.swift */; };
+		67E71FF22A2E197F0093ACF4 /* LikeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF12A2E197F0093ACF4 /* LikeDTO.swift */; };
+		67E71FF42A2E1CE10093ACF4 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF32A2E1CE10093ACF4 /* Atomic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,8 @@
 		67E71FE72A2D50030093ACF4 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 		67E71FE92A2D50380093ACF4 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		67E71FEB2A2D52110093ACF4 /* DownloadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewModel.swift; sourceTree = "<group>"; };
+		67E71FF12A2E197F0093ACF4 /* LikeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeDTO.swift; sourceTree = "<group>"; };
+		67E71FF32A2E1CE10093ACF4 /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,7 @@
 				6774A5A22A2A256600B53B35 /* UserDTO.swift */,
 				6774A5982A2A20F500B53B35 /* PhotoDTO.swift */,
 				6774A5A92A2A2BD700B53B35 /* PaginatedResponse.swift */,
+				67E71FF12A2E197F0093ACF4 /* LikeDTO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				67E71FC72A2BEB570093ACF4 /* AnySubject.swift */,
+				67E71FF32A2E1CE10093ACF4 /* Atomic.swift */,
 				67E71FC92A2BEEE50093ACF4 /* PageBasedFetcher.swift */,
 			);
 			path = Utils;
@@ -457,6 +463,7 @@
 				67E71FDC2A2D38E00093ACF4 /* InfoViewController.swift in Sources */,
 				6774A5992A2A20F500B53B35 /* PhotoDTO.swift in Sources */,
 				6774A5A32A2A256600B53B35 /* UserDTO.swift in Sources */,
+				67E71FF22A2E197F0093ACF4 /* LikeDTO.swift in Sources */,
 				6774A5922A2A187600B53B35 /* DependancyContainer.swift in Sources */,
 				6774A5B12A2A2F5E00B53B35 /* ReuqestProgress.swift in Sources */,
 				6774A5B32A2A2F7D00B53B35 /* Request.swift in Sources */,
@@ -480,6 +487,7 @@
 				67E71FB12A2B8D3C0093ACF4 /* FeedViewController.swift in Sources */,
 				6774A57A2A2A15DC00B53B35 /* AppDelegate.swift in Sources */,
 				67E71FD52A2D20B00093ACF4 /* ViewerViewController.swift in Sources */,
+				67E71FF42A2E1CE10093ACF4 /* Atomic.swift in Sources */,
 				67E71FDF2A2D395C0093ACF4 /* InfoPropertyCell.swift in Sources */,
 				6774A5DB2A2B537400B53B35 /* RequestError.swift in Sources */,
 				67E71FCA2A2BEEE50093ACF4 /* PageBasedFetcher.swift in Sources */,

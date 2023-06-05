@@ -13,9 +13,10 @@ protocol IUnsplashService: AnyObject {
     
     func getPhotos(page: Int, count: Int) -> AnyPublisher<[PhotoDTO], Error>
     func searchPhotos(query: String, page: Int, count: Int) -> AnyPublisher<PaginatedResponse<PhotoDTO>, Error>
-    func likePhoto(id: String) -> AnyPublisher<PhotoDTO, Error>
-    func dislikePhoto(id: String) -> AnyPublisher<PhotoDTO, Error>
+    func likePhoto(id: String) -> AnyPublisher<LikeDTO, Error>
+    func dislikePhoto(id: String) -> AnyPublisher<LikeDTO, Error>
     func getUserProfile() -> AnyPublisher<UserDTO, Error>
+    func isLikedItem(with id: String) -> Bool?
     
 }
 
@@ -24,6 +25,7 @@ class UnsplashService: IUnsplashService {
     // MARK: - Private properties
     
     private let requestService: IRequestService
+    @Atomic private var likesState = [String: Bool]()
     
     // MARK: - Lifecycle
     
@@ -65,7 +67,13 @@ class UnsplashService: IUnsplashService {
         return requestService.make(request: request)
     }
     
-    func likePhoto(id: String) -> AnyPublisher<PhotoDTO, Error>{
+    func isLikedItem(with id: String) -> Bool? {
+        return likesState[id]
+    }
+    
+    func likePhoto(id: String) -> AnyPublisher<LikeDTO, Error>{
+        likesState[id] = true
+        
         let url = requestService.serverURL
             .appendingPathComponent("photos")
             .appendingPathComponent(id)
@@ -81,7 +89,9 @@ class UnsplashService: IUnsplashService {
         return requestService.make(request: request)
     }
     
-    func dislikePhoto(id: String) -> AnyPublisher<PhotoDTO, Error> {
+    func dislikePhoto(id: String) -> AnyPublisher<LikeDTO, Error> {
+        likesState[id] = false
+        
         let url = requestService.serverURL
             .appendingPathComponent("photos")
             .appendingPathComponent(id)

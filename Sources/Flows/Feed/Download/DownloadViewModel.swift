@@ -54,7 +54,7 @@ class DownloadViewModel: IDownloadViewModel {
                 self?.out?(.finished)
             }
         } else {
-            let imageTask = ImagePipeline.shared.loadImage(
+            ImagePipeline.shared.loadImage(
                 with: request,
                 progress: { [weak self] response, completed, total in
                     self?.downloadSubject.send((Double(completed) / Double(total), total))

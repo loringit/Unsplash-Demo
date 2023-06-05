@@ -44,6 +44,14 @@ class FeedViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.tintColor = .Text.primary
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+    
     // MARK: - Private properties
     
     private lazy var datasource: UICollectionViewDiffableDataSource<Int, PhotoItem> = {
@@ -80,11 +88,13 @@ class FeedViewController: UIViewController {
         setupLayout()
         setupKeyboardListeners()
         setupBindings()
+        activityIndicator.startAnimating()
     }
         
     private func setupLayout() {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         
         bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         
@@ -96,7 +106,10 @@ class FeedViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomConstraint!
+            bottomConstraint!,
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -157,8 +170,17 @@ class FeedViewController: UIViewController {
             .photosPublisher
             .receive(on: DispatchQueue.main)
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("\(#fileID) \(#line): \(error)")
+                    case .finished:
+                        print("\(#fileID) \(#line): Finished")
+                    }
+                },
                 receiveValue: { [weak self] items in
+                    self?.activityIndicator.stopAnimating()
+                    
                     guard let self else { return }
                     
                     self.items = items

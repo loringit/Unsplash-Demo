@@ -59,8 +59,16 @@ class DownloadViewController: UIViewController {
     private func setupBindings() {
         viewModel
             .downloadProgressPublisher
+            .receive(on: DispatchQueue.main)
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("\(#fileID) \(#line): \(error)")
+                    case .finished:
+                        print("\(#fileID) \(#line): Finished")
+                    }
+                },
                 receiveValue: { [weak self] progress in
                     self?.progressView.update(progress: progress.0, totalSize: progress.1)
                     if progress.0 == 1.0 {

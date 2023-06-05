@@ -14,11 +14,12 @@ struct PhotoItem {
     let description: String?
     let altDescription: String?
     let fullURL: URL
+    let mediumURL: URL
     let smallURL: URL
     let shareURL: URL
     let downloadURL: URL
     let properties: [String: String]?
-    let isLiked: Bool
+    var isLiked: Bool
     let user: ShortUser
     
 }
@@ -58,6 +59,7 @@ extension PhotoItem {
             description: dto.description,
             altDescription: dto.altDescription,
             fullURL: dto.urls.full,
+            mediumURL: dto.urls.regular,
             smallURL: dto.urls.small,
             shareURL: dto.links.html,
             downloadURL: dto.links.download,

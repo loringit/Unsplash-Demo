@@ -49,6 +49,7 @@ class AppCoordinator: IAppCoordinator {
         dependencyContainer
             .requestService
             .authorizationPublisher
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { result in
                 switch result {
                 case .failure(let error):

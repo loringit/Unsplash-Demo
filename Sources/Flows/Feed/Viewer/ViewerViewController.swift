@@ -27,7 +27,7 @@ class ViewerViewController: UIViewController {
         
         likeButton.addAction(
             UIAction(handler: { [weak self] _ in
-                self?.viewModel.tapLikeSubject.send()
+                self?.viewModel.tapLike()
             }),
             for: .touchUpInside
         )
@@ -42,7 +42,7 @@ class ViewerViewController: UIViewController {
         
         downloadButton.addAction(
             UIAction(handler: { [weak self] _ in
-                self?.viewModel.tapDownloadSubject.send()
+                self?.viewModel.tapDownload()
             }),
             for: .touchUpInside
         )
@@ -57,12 +57,20 @@ class ViewerViewController: UIViewController {
         
         infoButton.addAction(
             UIAction(handler: { [weak self] _ in
-                self?.viewModel.tapInfoSubject.send()
+                self?.viewModel.tapInfo()
             }),
             for: .touchUpInside
         )
         
         return infoButton
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.tintColor = .Text.primary
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
     }()
     
     // MARK: - Private properties
@@ -89,6 +97,10 @@ class ViewerViewController: UIViewController {
         setupNavBar()
         setupLayout()
         setupBindings()
+        setImage(from: viewModel.photoItem)
+        setTitle(from: viewModel.photoItem)
+        setLikeButton(viewModel.photoItem.isLiked)
+        activityIndicator.startAnimating()
     }
     
     // MARK: - Private methods
@@ -112,12 +124,16 @@ class ViewerViewController: UIViewController {
     }
     
     private func setupLayout() {
+        view.addSubview(activityIndicator)
         view.addSubview(imageView)
         view.addSubview(likeButton)
         view.addSubview(downloadButton)
         view.addSubview(infoButton)
         
         NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -142,17 +158,20 @@ class ViewerViewController: UIViewController {
     
     private func setupBindings() {
         viewModel
-            .photoItemPublisher
+            .isLikedPublisher
+            .receive(on: DispatchQueue.main)
             .sink(
-                receiveCompletion: { _ in },
-                receiveValue: { [weak self] photoItem in
-                    guard let self else { return }
-                    
-                    if self.imageView.image == nil {
-                        self.setImage(from: photoItem)
-                        self.setTitle(from: photoItem)
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("\(#fileID) \(#line): \(error)")
+                    case .finished:
+                        print("\(#fileID) \(#line): Finished")
                     }
-                    self.setLikeButton(from: photoItem)
+                },
+                receiveValue: { [weak self] isLiked in
+                    guard let self else { return }
+                    self.setLikeButton(isLiked)
                 }
             )
             .store(in: &subscriptions)
@@ -162,17 +181,18 @@ class ViewerViewController: UIViewController {
     
     private func setImage(from item: PhotoItem) {
         Task {
-            let request = ImageRequest(url: item.fullURL)
+            let request = ImageRequest(url: item.mediumURL)
             if let container = ImagePipeline.shared.cache.cachedImage(for: request) {
                 imageView.image = container.image
             } else {
                 imageView.image = try await ImagePipeline.shared.image(for: request)
             }
+            activityIndicator.stopAnimating()
         }
     }
     
-    private func setLikeButton(from item: PhotoItem) {
-        likeButton.configuration?.baseForegroundColor = item.isLiked ? .Text.danger : .Text.primary
+    private func setLikeButton(_ isLiked: Bool) {
+        likeButton.configuration?.baseForegroundColor = isLiked ? .Text.danger : .Text.primary
     }
     
     private func setTitle(from item: PhotoItem) {
@@ -182,11 +202,11 @@ class ViewerViewController: UIViewController {
     // MARK: Navigation actions
     
     @objc private func backAction() {
-        viewModel.tapBackSubject.send()
+        viewModel.tapBack()
     }
     
     @objc private func shareAction() {
-        viewModel.tapShareSubject.send()
+        viewModel.tapShare()
     }
     
 }

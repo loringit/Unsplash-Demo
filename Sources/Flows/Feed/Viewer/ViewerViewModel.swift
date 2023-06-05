@@ -18,18 +18,15 @@ enum ViewerViewModelOut {
 }
 
 protocol IViewerViewModel: AnyObject {
+        
+    func tapLike()
+    func tapDownload()
+    func tapInfo()
+    func tapShare()
+    func tapBack()
     
-    // MARK: - Inputs
-    
-    var tapLikeSubject: AnySubject<Void, Never> { get }
-    var tapDownloadSubject: AnySubject<Void, Never> { get }
-    var tapInfoSubject: AnySubject<Void, Never> { get }
-    var tapShareSubject: AnySubject<Void, Never> { get }
-    var tapBackSubject: AnySubject<Void, Never> { get }
-    
-    // MARK: - Output
-    
-    var photoItemPublisher: AnyPublisher<PhotoItem, Error> { get }
+    var photoItem: PhotoItem { get }
+    var isLikedPublisher: AnyPublisher<Bool, Error> { get }
  
 }
 
@@ -38,86 +35,61 @@ class ViewerViewModel: IViewerViewModel {
     // MARK: - Public properties
     
     var out: ((ViewerViewModelOut) -> ())?
-    
-    // MARK: Inputs
-    
-    let tapLikeSubject = AnySubject<Void, Never>(PassthroughSubject())
-    let tapDownloadSubject = AnySubject<Void, Never>(PassthroughSubject())
-    let tapInfoSubject = AnySubject<Void, Never>(PassthroughSubject())
-    let tapShareSubject = AnySubject<Void, Never>(PassthroughSubject())
-    let tapBackSubject = AnySubject<Void, Never>(PassthroughSubject())
-    
-    // MARK: Output
-    
-    lazy var photoItemPublisher: AnyPublisher<PhotoItem, Error> = createPhotoItemPublisher()
+            
+    lazy var isLikedPublisher: AnyPublisher<Bool, Error> = isLikedSubject.eraseToAnyPublisher()
+    @Atomic var photoItem: PhotoItem
     
     // MARK: - Private properties
     
+    private let isLikedSubject: CurrentValueSubject<Bool, Error>
     private let unsplashService: IUnsplashService
-    private var currentItem: PhotoItem
     private var subscriptions = Set<AnyCancellable>()
     
     // MARK: - Lifecycle
     
     init(unsplashService: IUnsplashService, item: PhotoItem) {
         self.unsplashService = unsplashService
-        self.currentItem = item
-        self.bindInputs()
+        self.photoItem = item
+        self.isLikedSubject = CurrentValueSubject(item.isLiked)
     }
     
-    // MARK: - Private methods
+    // MARK: - Public methods
     
-    private func bindInputs() {
-        tapBackSubject
-            .sink(receiveValue: { [weak self] _ in
-                self?.out?(.back)
-            })
-            .store(in: &subscriptions)
+    func tapLike() {
+        let publisher: AnyPublisher<LikeDTO, Error>
         
-        tapDownloadSubject
-            .sink(receiveValue: { [weak self] _ in
-                self?.out?(.download)
-            })
-            .store(in: &subscriptions)
+        if photoItem.isLiked {
+            publisher = unsplashService.dislikePhoto(id: photoItem.id)
+        } else {
+            publisher = unsplashService.likePhoto(id: photoItem.id)
+        }
         
-        tapInfoSubject
-            .sink(receiveValue: { [weak self] _ in
-                self?.out?(.info)
-            })
-            .store(in: &subscriptions)
+        photoItem.isLiked.toggle()
+        isLikedSubject.send(photoItem.isLiked)
         
-        tapShareSubject
-            .sink(receiveValue: { [weak self] _ in
-                self?.out?(.share)
-            })
-            .store(in: &subscriptions)
-    }
-    
-    func createPhotoItemPublisher() -> AnyPublisher<PhotoItem, Error> {
-        return tapLikeSubject
-            .map { [weak self] _ in
-                guard let self else {
-                    return Empty<PhotoItem, Error>().eraseToAnyPublisher()
-                }
-                
-                if self.currentItem.isLiked {
-                    return self.unsplashService
-                        .dislikePhoto(id: self.currentItem.id)
-                        .map { PhotoItem.mapFromDTO($0) }
-                        .eraseToAnyPublisher()
-                } else {
-                    return self.unsplashService
-                        .likePhoto(id: self.currentItem.id)
-                        .map { PhotoItem.mapFromDTO($0) }
-                        .eraseToAnyPublisher()
-                }
+        publisher
+            .sink { [weak self] result in
+                self?.isLikedSubject.send(completion: result)
+            } receiveValue: { [weak self] dto in
+                self?.photoItem.isLiked = dto.photo.likedByUser
             }
-            .switchToLatest()
-            .handleEvents(receiveOutput: { [weak self] output in
-                self?.currentItem = output
-            })
-            .prepend(currentItem)
-            .eraseToAnyPublisher()
+            .store(in: &subscriptions)
+    }
+    
+    func tapDownload() {
+        out?(.download)
+    }
+    
+    func tapInfo() {
+        out?(.info)
+    }
+    
+    func tapShare() {
+        out?(.share)
+    }
+    
+    func tapBack() {
+        out?(.back)
     }
     
 }

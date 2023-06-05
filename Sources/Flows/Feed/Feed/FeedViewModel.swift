@@ -47,13 +47,8 @@ class FeedViewModel: IFeedViewModel {
     
     // MARK: Outputs
     
-    lazy var photosPublisher: AnyPublisher<[PhotoItem], Error> = {
-        createPhotosPublisher()
-    }()
-    
-    lazy var refreshLayoutPublisher: AnyPublisher<Void, Never> = {
-        .init(refreshLayoutSubject)
-    }()
+    lazy var photosPublisher: AnyPublisher<[PhotoItem], Error> = createPhotosPublisher()
+    lazy var refreshLayoutPublisher: AnyPublisher<Void, Never> = refreshLayoutSubject.eraseToAnyPublisher()
     
     // MARK: - Private properties
     
@@ -120,6 +115,10 @@ class FeedViewModel: IFeedViewModel {
         
         tapSubject
             .sink(receiveValue: { [weak self] feedItem in
+                var feedItem = feedItem
+                if let isLiked = self?.unsplashService.isLikedItem(with: feedItem.id) {
+                    feedItem.isLiked = isLiked
+                }
                 self?.out?(.open(feedItem))
             })
             .store(in: &subscriptions)
