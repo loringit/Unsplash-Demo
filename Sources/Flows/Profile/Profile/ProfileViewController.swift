@@ -87,6 +87,7 @@ class ProfileViewController: UIViewController {
             }, receiveValue: { [weak self] cells in
                 self?.cells = cells
                 self?.tableView.reloadData()
+                self?.tableView.isScrollEnabled = (self?.view.safeAreaLayoutGuide.layoutFrame.height ?? 0) <= (self?.tableView.contentSize.height ?? 0)
             })
             .store(in: &subscriptions)
     }

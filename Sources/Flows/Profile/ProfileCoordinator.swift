@@ -37,6 +37,7 @@ class ProfileCoordinator: IProfileCoordinator{
     init(navigationController: UINavigationController, dependancyContainer: IDependencyContainer) {
         self.navigationController = navigationController
         self.dependancyContainer = dependancyContainer
+        self.navigationController.setNavigationBarHidden(true, animated: false)
     }
     
     // MARK: - Public methods
