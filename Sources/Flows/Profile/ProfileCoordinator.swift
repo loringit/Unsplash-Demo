@@ -42,7 +42,18 @@ class ProfileCoordinator: IProfileCoordinator{
     // MARK: - Public methods
     
     func start() {
+        let viewModel = ProfileViewModel(unsplashService: dependancyContainer.unsplashService)
+        viewModel.out = { out in
+            switch out {
+            case .openURL(let url):
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
         
+        let viewContoller = ProfileViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewContoller, animated: false)
     }
     
 }

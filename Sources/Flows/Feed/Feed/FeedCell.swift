@@ -73,10 +73,10 @@ class FeedCell: UICollectionViewCell {
         cardView.addSubview(imageView)
 
         NSLayoutConstraint.activate([
-            cardView.topAnchor.constraint(equalTo: topAnchor, constant: 6),
-            cardView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
-            cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
-            cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
+            cardView.topAnchor.constraint(equalTo: topAnchor, constant: feedCellPadding),
+            cardView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -feedCellPadding),
+            cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: feedCellPadding),
+            cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -feedCellPadding),
             
             imageView.topAnchor.constraint(equalTo: cardView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),

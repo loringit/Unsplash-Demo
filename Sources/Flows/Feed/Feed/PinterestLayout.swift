@@ -14,6 +14,8 @@ protocol PinterestLayoutDelegate: AnyObject {
     
 }
 
+let feedCellPadding: CGFloat = 6
+
 class PinterestLayout: UICollectionViewLayout {
     
     // MARK: - Public properties
@@ -23,7 +25,6 @@ class PinterestLayout: UICollectionViewLayout {
     // MARK: - Private properties
     
     private let numberOfColumns = 2
-    private let cellPadding: CGFloat = 6
     private var cache: [UICollectionViewLayoutAttributes] = []
     private var contentHeight: CGFloat = 0
     private var contentWidth: CGFloat {
@@ -77,7 +78,7 @@ class PinterestLayout: UICollectionViewLayout {
                 ratioForPhotoAtIndexPath: indexPath
             ) ?? 180
             
-            let height = cellPadding * 2 + columnWidth / photoRatio
+            let height = feedCellPadding * 2 + columnWidth / photoRatio
             let frame = CGRect(
                 x: xOffset[column],
                 y: yOffset[column],

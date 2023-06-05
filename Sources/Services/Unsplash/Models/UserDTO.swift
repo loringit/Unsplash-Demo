@@ -17,7 +17,7 @@ struct UserDTO: Decodable {
     
     var bio: String?
     var location: String?
-    var portfoliUrl: URL?
+    var portfolioUrl: URL?
     var instagramUsername: String?
     var twitterUsername: String?
     

@@ -56,6 +56,15 @@
 		67E71FEC2A2D52110093ACF4 /* DownloadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FEB2A2D52110093ACF4 /* DownloadViewModel.swift */; };
 		67E71FF22A2E197F0093ACF4 /* LikeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF12A2E197F0093ACF4 /* LikeDTO.swift */; };
 		67E71FF42A2E1CE10093ACF4 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF32A2E1CE10093ACF4 /* Atomic.swift */; };
+		67E71FF72A2E2C230093ACF4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF62A2E2C230093ACF4 /* ProfileViewController.swift */; };
+		67E71FFA2A2E2C9C0093ACF4 /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FF92A2E2C9C0093ACF4 /* ProfileHeaderCell.swift */; };
+		67E71FFC2A2E34D40093ACF4 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FFB2A2E34D40093ACF4 /* ProfileViewModel.swift */; };
+		67E71FFF2A2E35200093ACF4 /*  ProfileCounters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E71FFE2A2E35200093ACF4 /*  ProfileCounters.swift */; };
+		67E720012A2E46270093ACF4 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E720002A2E46270093ACF4 /* ProfileHeader.swift */; };
+		67E720032A2E462F0093ACF4 /* ProfileLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E720022A2E462F0093ACF4 /* ProfileLinks.swift */; };
+		67E720052A2E46D50093ACF4 /* ProfileCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E720042A2E46D50093ACF4 /* ProfileCellType.swift */; };
+		67E720072A2E48570093ACF4 /* ProfileCountersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E720062A2E48570093ACF4 /* ProfileCountersCell.swift */; };
+		67E720092A2E48690093ACF4 /* ProfileLinksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E720082A2E48690093ACF4 /* ProfileLinksCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +113,15 @@
 		67E71FEB2A2D52110093ACF4 /* DownloadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewModel.swift; sourceTree = "<group>"; };
 		67E71FF12A2E197F0093ACF4 /* LikeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeDTO.swift; sourceTree = "<group>"; };
 		67E71FF32A2E1CE10093ACF4 /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		67E71FF62A2E2C230093ACF4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		67E71FF92A2E2C9C0093ACF4 /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCell.swift; sourceTree = "<group>"; };
+		67E71FFB2A2E34D40093ACF4 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		67E71FFE2A2E35200093ACF4 /*  ProfileCounters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " ProfileCounters.swift"; sourceTree = "<group>"; };
+		67E720002A2E46270093ACF4 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		67E720022A2E462F0093ACF4 /* ProfileLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLinks.swift; sourceTree = "<group>"; };
+		67E720042A2E46D50093ACF4 /* ProfileCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCellType.swift; sourceTree = "<group>"; };
+		67E720062A2E48570093ACF4 /* ProfileCountersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCountersCell.swift; sourceTree = "<group>"; };
+		67E720082A2E48690093ACF4 /* ProfileLinksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLinksCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +258,7 @@
 		6774A5CA2A2A7D7900B53B35 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				67E71FF52A2E2C190093ACF4 /* Profile */,
 				6774A5D02A2A7DC300B53B35 /* ProfileCoordinator.swift */,
 			);
 			path = Profile;
@@ -374,6 +393,38 @@
 			path = Download;
 			sourceTree = "<group>";
 		};
+		67E71FF52A2E2C190093ACF4 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				67E71FFD2A2E35130093ACF4 /* Models */,
+				67E71FF82A2E2C900093ACF4 /* Cells */,
+				67E71FF62A2E2C230093ACF4 /* ProfileViewController.swift */,
+				67E71FFB2A2E34D40093ACF4 /* ProfileViewModel.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		67E71FF82A2E2C900093ACF4 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				67E71FF92A2E2C9C0093ACF4 /* ProfileHeaderCell.swift */,
+				67E720062A2E48570093ACF4 /* ProfileCountersCell.swift */,
+				67E720082A2E48690093ACF4 /* ProfileLinksCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		67E71FFD2A2E35130093ACF4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				67E71FFE2A2E35200093ACF4 /*  ProfileCounters.swift */,
+				67E720002A2E46270093ACF4 /* ProfileHeader.swift */,
+				67E720022A2E462F0093ACF4 /* ProfileLinks.swift */,
+				67E720042A2E46D50093ACF4 /* ProfileCellType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -459,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67E720032A2E462F0093ACF4 /* ProfileLinks.swift in Sources */,
 				6774A5C12A2A314800B53B35 /* EmptyResponse.swift in Sources */,
 				67E71FDC2A2D38E00093ACF4 /* InfoViewController.swift in Sources */,
 				6774A5992A2A20F500B53B35 /* PhotoDTO.swift in Sources */,
@@ -467,6 +519,7 @@
 				6774A5922A2A187600B53B35 /* DependancyContainer.swift in Sources */,
 				6774A5B12A2A2F5E00B53B35 /* ReuqestProgress.swift in Sources */,
 				6774A5B32A2A2F7D00B53B35 /* Request.swift in Sources */,
+				67E720012A2E46270093ACF4 /* ProfileHeader.swift in Sources */,
 				67E71FBF2A2BCD120093ACF4 /* BasicButton.swift in Sources */,
 				67E71FB62A2B8E0A0093ACF4 /* PhotoItem.swift in Sources */,
 				67E71FE52A2D3BB80093ACF4 /* UITableViewCell.swift in Sources */,
@@ -475,8 +528,12 @@
 				6774A5D92A2B4CDD00B53B35 /* Icon.swift in Sources */,
 				67E71FE12A2D39660093ACF4 /* InfoDescriptionCell.swift in Sources */,
 				67E71FCC2A2C8AFF0093ACF4 /* FeedCell.swift in Sources */,
+				67E71FFF2A2E35200093ACF4 /*  ProfileCounters.swift in Sources */,
+				67E720052A2E46D50093ACF4 /* ProfileCellType.swift in Sources */,
 				6774A5902A2A183800B53B35 /* AppCoordinator.swift in Sources */,
 				6774A5D72A2B457300B53B35 /* ColorScheme.swift in Sources */,
+				67E71FFC2A2E34D40093ACF4 /* ProfileViewModel.swift in Sources */,
+				67E71FF72A2E2C230093ACF4 /* ProfileViewController.swift in Sources */,
 				67E71FD72A2D21160093ACF4 /* ViewerViewModel.swift in Sources */,
 				67E71FB92A2BCC2C0093ACF4 /* AuthorizationViewController.swift in Sources */,
 				6774A5C72A2A7CA900B53B35 /* TabCoordinator.swift in Sources */,
@@ -491,6 +548,7 @@
 				67E71FDF2A2D395C0093ACF4 /* InfoPropertyCell.swift in Sources */,
 				6774A5DB2A2B537400B53B35 /* RequestError.swift in Sources */,
 				67E71FCA2A2BEEE50093ACF4 /* PageBasedFetcher.swift in Sources */,
+				67E71FFA2A2E2C9C0093ACF4 /* ProfileHeaderCell.swift in Sources */,
 				67E71FB32A2B8D870093ACF4 /* FeedViewModel.swift in Sources */,
 				6774A5AC2A2A2EEA00B53B35 /* RequestService.swift in Sources */,
 				67E71FAB2A2B73EC0093ACF4 /* Font.swift in Sources */,
@@ -498,6 +556,8 @@
 				67E71FBD2A2BCCCD0093ACF4 /* GradientView.swift in Sources */,
 				67E71FE82A2D50030093ACF4 /* DownloadViewController.swift in Sources */,
 				67E71FEA2A2D50380093ACF4 /* ProgressView.swift in Sources */,
+				67E720072A2E48570093ACF4 /* ProfileCountersCell.swift in Sources */,
+				67E720092A2E48690093ACF4 /* ProfileLinksCell.swift in Sources */,
 				6774A5D12A2A7DC300B53B35 /* ProfileCoordinator.swift in Sources */,
 				6774A5952A2A1A1800B53B35 /* UnsplashService.swift in Sources */,
 			);

@@ -47,6 +47,13 @@ extension UIColor {
                 
     }
     
+    struct SocialNetworks {
+        
+        static let instagram = UIColor(named: "InstagramColor")!
+        static let twitter = UIColor(named: "TwitterColor")!
+        
+    }
+    
     var dark: UIColor  { resolvedColor(with: .init(userInterfaceStyle: .dark))  }
     var light: UIColor { resolvedColor(with: .init(userInterfaceStyle: .light)) }
     
